@@ -1,0 +1,90 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+abstract class GameObject {
+    protected double x, y; // Current position
+    protected double speed; // Movement speed
+
+    public GameObject(double x, double y, double speed) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+    }
+
+    public abstract void move();
+
+    public abstract void draw(GraphicsContext gc);
+}
+
+class Type_A_GameObject extends GameObject {
+    public Type_A_GameObject(double x, double y, double speed) {
+        super(x, y, speed);
+    }
+
+    @Override
+    public void move() {
+        // Implement movement logic for Type A (up and down)
+        y += speed;
+        if (y > 400 || y < 0) {
+            speed = -speed; // Reverse direction at canvas boundaries
+        }
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.setFill(Color.RED);
+        gc.fillRect(x, y, 20, 20); // Adjust the size as needed
+    }
+}
+
+class Type_C_GameObject extends GameObject {
+    private boolean isUserControlled;
+
+    public Type_C_GameObject(double x, double y, double speed) {
+        super(x, y, speed);
+        this.isUserControlled = false;
+    }
+
+    public void setUserControlled(boolean userControlled) {
+        this.isUserControlled = userControlled;
+    }
+
+    @Override
+    public void move() {
+        if (isUserControlled) {
+            // If user-controlled, do not move automatically
+            return;
+        }
+
+        // Implement movement logic for Type C (left and right)
+        x += speed;
+        if (x > 400 || x < 0) {
+            speed = -speed; // Reverse direction at canvas boundaries
+        }
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        gc.setFill(Color.BLUE);
+        gc.fillRect(x, y, 20, 20); // Adjust the size as needed
+    }
+
+    public void moveLeft() {
+        if (isUserControlled) {
+            x -= speed;
+        }
+    }
+
+    public void moveRight() {
+        if (isUserControlled) {
+            x += speed;
+        }
+    }
+}
+
