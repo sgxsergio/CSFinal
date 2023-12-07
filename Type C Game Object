@@ -1,0 +1,50 @@
+import javafx.scene.paint.Color;
+import javafx.scene.canvas.GraphicsContext;
+
+public class Type_C_GameObject extends GameObject {
+    private boolean isUserControlled;
+
+    public Type_C_GameObject(double x, double y, double speed) {
+        super(x, y, speed);
+        this.isUserControlled = false;
+    }
+
+    public void setUserControlled(boolean userControlled) {
+        this.isUserControlled = userControlled;
+    }
+
+    @Override
+    public void move() {
+        if (isUserControlled) {
+            // If user-controlled, do not move automatically
+            return;
+        }
+
+        // Implement movement logic for Type C (left and right)
+        // Update x coordinate based on speed
+        setX(getX() + getSpeed());
+
+        // Add any additional logic specific to Type C movement
+    }
+
+    // Additional methods for drawing and user control
+    public void draw(GraphicsContext gc) {
+        // Draw the Type C GameObject on the canvas
+        gc.setFill(Color.BLUE);
+        gc.fillRect(getX(), getY(), 20, 20); // Adjust the size as needed
+    }
+
+    public void moveLeft() {
+        if (isUserControlled) {
+            // Move left only if user-controlled
+            setX(getX() - getSpeed());
+        }
+    }
+
+    public void moveRight() {
+        if (isUserControlled) {
+            // Move right only if user-controlled
+            setX(getX() + getSpeed());
+        }
+    }
+}
